@@ -1,39 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const moment = require("moment");
-moment.locale('pt-br');
 const tarefasController = require("../controllers/tarefasController");
 
-router.get("/",  function (req, res) {
-   tarefasController.listarTarefas(req, res);
-});
-
-router.get("/editar", function (req, res) {
-  tarefasController.exibirTarefaId(req, res);
-});
-
-router.get("/excluir", function (req, res) {
-  tarefasController.excluirTarefa(req, res);
-});
-
-router.get("/finalizar", function (req, res) {
-  tarefasController.finalizarTarefa(req, res);
-});
-
-router.get("/iniciar", function (req, res) {
-  tarefasController.iniciarTarefa(req, res);
-});
-
-router.get("/adicionar", function (req, res) {
-  res.locals.moment = moment;
-  res.render("pages/adicionar", { dados: null, listaErros: null });
-});
-
-router.post("/adicionar", tarefasController.regrasValidacao, function (req, res) {
-    tarefasController.adicionarTarefa(req, res);
-  }
-);
-
+router.get("/", tarefasController.listarTarefas);
+router.get("/adicionar", tarefasController.exibirFormAdicionar);
+router.post("/adicionar", tarefasController.regrasValidacao, tarefasController.adicionarTarefa);
+router.get("/editar", tarefasController.exibirTarefaId);
+router.get("/excluir", tarefasController.excluirTarefa);
+router.get("/finalizar", tarefasController.finalizarTarefa);
+router.get("/iniciar", tarefasController.iniciarTarefa);
 
 module.exports = router;
-
